@@ -115,6 +115,18 @@ type IAction interface {
     Go()
 }
 
+func NewAction(a interface{}) *Action {
+    _, ok := a.(IMenu)
+    _, ok1 := a.(IFunc)
+    if !ok && !ok1 {
+        Panic(FuncName(), "参数应为IMenu或IFunc类型")
+    }
+    action := &Action {
+        action: a,
+    }
+    return action
+}
+
 type Action struct {
     action interface{} // IMenu or IFunc
 }
