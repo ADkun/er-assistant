@@ -2,6 +2,7 @@ package com
 
 import (
     "os/exec"
+    "bytes"
 )
 
 // 管道方式运行命令

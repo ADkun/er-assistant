@@ -1,8 +1,9 @@
 package com
 
 import (
-    "filepath"
-    "strconv"
+    "os"
+    "fmt"
+    "path/filepath"
     "strings"
 )
 
@@ -68,7 +69,7 @@ func (self *Ini) Get(k string) string {
         }
         if rs[0] == k {
             res := rs[1]
-            res := Trim(res)
+            res = Trim(res)
             return res
         }
     }
@@ -79,7 +80,7 @@ func (self *Ini) Get(k string) string {
 // 设置kv
 func (self *Ini) Set(k, v string) {
     var builder strings.Builder
-    freader := NewFReader()
+    freader := NewFReader(self.path)
 
     // 创建临时文件
     temp := GetRandStr(10)
@@ -111,7 +112,7 @@ func (self *Ini) Set(k, v string) {
             tempF.WriteString(target)
             bf = true
         } else {
-            tempF.WriteString(r)
+            tempF.WriteString(r + "\n")
         }
     }
 

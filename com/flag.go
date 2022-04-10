@@ -2,6 +2,7 @@ package com
 
 import (
     "os"
+    "fmt"
 )
 
 func GetArgLen() int {
@@ -15,10 +16,10 @@ func GetArgs() []string {
 func GetArgAt(i int) string {
     l := GetArgLen()
     if i > l - 1 {
-        Panic(FuncName(), fmt.Sprintf("索引超出范围，索引范围: 0 - %d", len - 1))
+        Panic(FuncName(), fmt.Sprintf("索引超出范围，索引范围: 0 - %d", l - 1))
     }
     args := GetArgs()
-    return args[i], nil
+    return args[i]
 }
 
 // 自定义参数

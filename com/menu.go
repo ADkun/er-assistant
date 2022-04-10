@@ -2,6 +2,7 @@ package com
 
 import (
     "fmt"
+    "time"
 )
 
 // IMenu
@@ -21,7 +22,21 @@ func NewMenu() *Menu {
 type Menu struct {
     welcome string
     content *Array
-    action *array
+    action *Array
+}
+
+func (self *Menu) Init(c []string, a []IAction, w string) {
+    cLen := len(c)
+    aLen := len(a)
+    if cLen != aLen {
+        Panic(FuncName(), fmt.Sprintf("参数数组大小不相等 %d != %d", cLen, aLen))
+    }
+    self.Initialize(cLen)
+    self.SetWelcome(w)
+    for i, _ := range c {
+        self.AddContent(i, c[i])
+        self.AddAction(i, a[i])
+    }
 }
 
 func (self *Menu) Initialize(i int) {
@@ -57,13 +72,19 @@ func (self *Menu) monitor() {
             break
         }
 
-        if !IsDigit(r) {
+
+        var i int
+        var berr bool = false
+        Try(func() {
+            i = A2I(r)
+        }, func(err interface{}) {
+            berr = true
+        }, func(){})
+        if berr || !IsDigit(r) {
             Error("输入不合法: " + r)
             time.Sleep(time.Second * 2)
             continue
         }
-
-        i := A2I(r)
         if i <= 0 || i > self.action.GetSize() {
             Error("输入范围不合法: " + r)
             time.Sleep(time.Second * 2)
@@ -75,9 +96,9 @@ func (self *Menu) monitor() {
             Try(func() {
                 v.Go()
             }, func(err interface{}) {
-                PrintErr(err)
+                fmt.Println(err)
+                Pause()
             }, func(){})
-            Pause()
         } else {
             Panic(FuncName(), "action无法转换为IAction")
         }

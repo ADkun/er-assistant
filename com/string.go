@@ -26,7 +26,7 @@ func GetRandStr(length int) string {
     ran := rand.New(rand.NewSource(time.Now().Unix()))
     var rchar string = ""
     for i := 1; i <= length; i++ {
-        rchar += charArr[ran.Intn(charlen)]
+        rchar += charArr[ran.Intn(charLen)]
     }
     return rchar
 }

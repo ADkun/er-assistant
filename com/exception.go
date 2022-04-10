@@ -1,7 +1,11 @@
 package com
 
+import (
+    "strings"
+)
+
 func Panic(funcName, msg string) {
-    var builder string.Builder
+    var builder strings.Builder
     builder.WriteString("=====[ PANIC BEG ]=====\n")
     builder.WriteString("函数: ")
     builder.WriteString(funcName)
@@ -14,7 +18,7 @@ func Panic(funcName, msg string) {
 }
 
 func PanicErr(funcName, msg string, err error) {
-    var builder string.Builder
+    var builder strings.Builder
     builder.WriteString("=====[ PANIC BEG ]=====\n")
     builder.WriteString("函数: ")
     builder.WriteString(funcName)
@@ -28,3 +32,4 @@ func PanicErr(funcName, msg string, err error) {
     builder.WriteString("=====[ PANIC END ]=====\n")
     panic(builder.String())
 }
+

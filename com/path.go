@@ -1,5 +1,11 @@
 package com
 
+import (
+    "os"
+    "path/filepath"
+    "fmt"
+)
+
 // 获取当前程序工作路径
 func GetWorkPath() string {
     ex, err := os.Executable()
@@ -45,6 +51,10 @@ func IsDir(path string) bool {
     return f.IsDir()
 }
 
+func IsAbs(path string) bool {
+    return filepath.IsAbs(path)
+}
+
 func CreateDir(path string) {
     if IsPathExist(path) && !IsDir(path) {
         Panic(FuncName(), fmt.Sprintf("路径被占用，无法创建目录: %s", path))
@@ -52,19 +62,27 @@ func CreateDir(path string) {
     if err := os.MkdirAll(path, 0777); err != nil {
         PanicErr(FuncName(), fmt.Sprintf("os.MkdirAll(%s)", path), err)
     }
-    Info(fmt.Sprintf("创建目录%s成功", path))
+    //Info(fmt.Sprintf("创建目录%s成功", path))
 }
 
 func CreateFile(path string) {
     if IsPathExist(path) && IsDir(path) {
         Panic(FuncName(), fmt.Sprintf("路径被占用，无法创建文件: %s", path))
     }
+
+    // 创建父目录
+    d := filepath.Dir(path)
+    if _, err := os.Stat(d); err != nil {
+        if err = os.MkdirAll(d, 0777); err != nil {
+            PanicErr(FuncName(), fmt.Sprintf("os.MkdirAll(%v)", d), err)
+        }
+    }
+
     f, err := os.Create(path)
     if err != nil {
         PanicErr(FuncName(), fmt.Sprintf("os.Create(%s)", path), err)
     }
     defer f.Close()
-    Info(fmt.Sprintf("创建文件%s成功", path))
+    //Info(fmt.Sprintf("创建文件%s成功", path))
 }
-
 

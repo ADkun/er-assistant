@@ -1,5 +1,9 @@
 package main
 
-func main() {
+import (
+    "erassistant/er"
+)
 
+func main() {
+    er.Entry()
 }

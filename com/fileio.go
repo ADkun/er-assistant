@@ -1,7 +1,9 @@
 package com
 
 import (
+    "path/filepath"
     "bufio"
+    "fmt"
     "os"
     "io/ioutil"
 )
@@ -11,11 +13,20 @@ func FWrite(path, content string) {
     if IsPathExist(path) && IsDir(path) {
         Panic(FuncName(), fmt.Sprintf("路径被占用，无法创建文件: %s", path))
     }
+
+    d := filepath.Dir(path)
+    if _, err := os.Stat(d); err != nil {
+        if err = os.MkdirAll(d, 0777); err != nil {
+            PanicErr(FuncName(), fmt.Sprintf("os.MkdirAll(%v)", d), err)
+        }
+    }
+
     f, err := os.Create(path)
     if err != nil {
         PanicErr(FuncName(), fmt.Sprintf("os.Create(%s)", path), err)
     }
     defer f.Close()
+    f.WriteString(content)
 }
 
 // 读取文件所有内容
@@ -25,7 +36,11 @@ func FReadAll(path string) string {
         PanicErr(FuncName(), fmt.Sprintf("os.Open(%s)", path), err)
     }
     defer f.Close()
-    return ioutil.ReadAll(f)
+    bytes, err := ioutil.ReadAll(f)
+    if err != nil {
+        PanicErr(FuncName(), fmt.Sprintf("ioutil.ReadAll(%v)", f), err)
+    }
+    return string(bytes)
 }
 ///////////////////////////////////////
 // 文件读取器
@@ -34,7 +49,7 @@ type IFReader interface {
     ReadLine() (string, bool)
 }
 
-func NewFReader(path string) *IFReader {
+func NewFReader(path string) *FReader {
     file, err := os.Open(path)
     if err != nil {
         PanicErr(FuncName(), fmt.Sprintf("os.Open(%s)", path), err)
@@ -62,9 +77,9 @@ func (self *FReader) ReadLine() (string, bool) {
     end := self.s.Scan()
     line := self.s.Text()
     if err := self.s.Err(); err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("Scan %s failed", path), err)
+        PanicErr(FuncName(), fmt.Sprintf("Scan %s failed", self.path), err)
     }
-    line := Trim(line)
+    line = Trim(line)
     return line, end
 }
 
