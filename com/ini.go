@@ -131,3 +131,36 @@ func (self *Ini) Set(k, v string) {
         PanicErr(FuncName(), fmt.Sprintf("os.Rename(%s)", temp), err)
     }
 }
+
+func (self *Ini) GetBool(k string) bool {
+    v := self.Get(k)
+    v = ToUpper(v)
+    if v == "" {
+        Panic(FuncName(), fmt.Sprintf("%s 未设置 %s", self.path, k))
+    }
+
+    if v == "TRUE" {
+        return true
+    } else if v == "FALSE" {
+        return false
+    } else {
+        Panic(FuncName(), fmt.Sprintf("%s: %s 的值不合法: %s\n应为true或false", self.path, k, v))
+    }
+    return false
+}
+
+func (self *Ini) GetString(k string) string {
+    v := self.Get(k)
+    if v == "" {
+        Panic(FuncName(), fmt.Sprintf("%s 未设置 %s", self.path, k))
+    }
+    return v
+}
+
+func (self *Ini) GetInt(k string) int {
+    v := self.Get(k)
+    if v == "" {
+        Panic(FuncName(), fmt.Sprintf("%s 未设置 %s", self.path, k))
+    }
+    return A2I(v)
+}

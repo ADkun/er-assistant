@@ -4,7 +4,12 @@ import (
     "os"
     "path/filepath"
     "fmt"
+    "io/ioutil"
 )
+
+func Dir(path string) string {
+    return filepath.Dir(path)
+}
 
 // 获取当前程序工作路径
 func GetWorkPath() string {
@@ -86,3 +91,25 @@ func CreateFile(path string) {
     //Info(fmt.Sprintf("创建文件%s成功", path))
 }
 
+func ReadDir(path string) []string {
+    if !IsPathExist(path) {
+        Panic(FuncName(), fmt.Sprintf("路径不存在: %s", path))
+    }
+
+    list, err := ioutil.ReadDir(path)
+    if err != nil {
+        PanicErr(FuncName(), fmt.Sprintf("ioutil.ReadDir(%s)", path), err)
+    }
+
+    var res []string = make([]string, len(list))
+    for i := 0; i < len(list); i++ {
+        res[i] = list[i].Name()
+    }
+    return res
+}
+
+func RemoveAll(path string) {
+    if err := os.RemoveAll(path); err != nil {
+        PanicErr(FuncName(), fmt.Sprintf("os.RemoveAll(%s)", path), err)
+    }
+}

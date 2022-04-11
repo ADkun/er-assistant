@@ -15,9 +15,8 @@ const settingIniPath = "config/settings.ini"
 
 // 单独文件名
 const filesIniName  = "files.ini" // MOD和工具的本体文件名
-const modCfgIniName = "config.ini" // MOD和工具的配置文件名
+const cfgIniName = "config.ini" // MOD和工具的配置文件名
 const bakIniName = "backups.ini" // 备份文件记录（自动生成）
-const bakCfgIniName = "config.ini" // 自定义备份配置文件
 const commentName = "comment.txt"
 
 // 单独文件夹
@@ -32,6 +31,9 @@ const keyFilesNum = "FilesNum" // MOD的文件数量
 
 // backups.ini配置项
 const keyBakNum = "BakNum"
+
+// 自定义备份config.ini配置项
+// keyFilesNum
 
 var SLASH string
 func init() {

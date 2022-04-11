@@ -19,15 +19,20 @@ Contains	com/array.go	/^func (a *Array) Contains(element interface{}) bool {$/;"
 Copy	com/copy.go	/^func Copy(from, to string) {$/;"	f
 CreateDir	com/path.go	/^func CreateDir(path string) {$/;"	f
 CreateFile	com/path.go	/^func CreateFile(path string) {$/;"	f
+Dir	com/path.go	/^func Dir(path string) string {$/;"	f
 Entry	er/er.go	/^func Entry() {$/;"	f
 Error	com/stdio.go	/^func Error(s string) {$/;"	f
 FAppend	com/fileio.go	/^func FAppend(path, content string) {$/;"	f
 FReadAll	com/fileio.go	/^func FReadAll(path string) string {$/;"	f
 FReader	com/fileio.go	/^type FReader struct {$/;"	t
+FUncUni	er/func.go	/^type FUncUni struct {$/;"	t
 FWrite	com/fileio.go	/^func FWrite(path, content string) {$/;"	f
 Find	com/array.go	/^func (a *Array) Find(element interface{}) int {$/;"	f
 FindAll	com/array.go	/^func (a *Array) FindAll(element interface{}) (indexes []int) {$/;"	f
+FuncBak	er/func.go	/^type FuncBak struct {$/;"	t
+FuncIns	er/func.go	/^type FuncIns struct {$/;"	t
 FuncName	com/func.go	/^func FuncName() string {$/;"	f
+FuncRes	er/func.go	/^type FuncRes struct {$/;"	t
 FuncSetGameRoot	er/func.go	/^type FuncSetGameRoot struct {$/;"	t
 FuncSetSavePath	er/func.go	/^type FuncSetSavePath struct {$/;"	t
 Get	com/array.go	/^func (a *Array) Get(index int) interface{} {$/;"	f
@@ -36,14 +41,20 @@ GetArgAt	com/flag.go	/^func GetArgAt(i int) string {$/;"	f
 GetArgLen	com/flag.go	/^func GetArgLen() int {$/;"	f
 GetArgs	com/flag.go	/^func GetArgs() []string {$/;"	f
 GetArray	com/array.go	/^func GetArray(capacity int) *Array {$/;"	f
+GetBool	com/ini.go	/^func (self *Ini) GetBool(k string) bool {$/;"	f
 GetCapacity	com/array.go	/^func (a *Array) GetCapacity() int {$/;"	f
 GetCurTimeStamp	com/string.go	/^func GetCurTimeStamp() string {$/;"	f
+GetInt	com/ini.go	/^func (self *Ini) GetInt(k string) int {$/;"	f
 GetNamedFlag	com/flag.go	/^func GetNamedFlag() *NamedFlag {$/;"	f
 GetRandStr	com/string.go	/^func GetRandStr(length int) string {$/;"	f
 GetSize	com/array.go	/^func (a *Array) GetSize() int {$/;"	f
+GetString	com/ini.go	/^func (self *Ini) GetString(k string) string {$/;"	f
 GetWorkPath	com/path.go	/^func GetWorkPath() string {$/;"	f
 Go	com/menu.go	/^func (self *Action) Go() {$/;"	f
 Go	com/menu.go	/^func (self *Menu) Go() {$/;"	f
+Go	er/func.go	/^func (self *FuncBak) Go() {$/;"	f
+Go	er/func.go	/^func (self *FuncIns) Go() {$/;"	f
+Go	er/func.go	/^func (self *FuncRes) Go() {$/;"	f
 Go	er/func.go	/^func (self *FuncSetGameRoot) Go() {$/;"	f
 Go	er/func.go	/^func (self *FuncSetSavePath) Go() {$/;"	f
 I2A	com/string.go	/^func I2A(i int) string {$/;"	f
@@ -70,30 +81,41 @@ NewMenu	com/menu.go	/^func NewMenu() *Menu {$/;"	f
 Panic	com/exception.go	/^func Panic(funcName, msg string) {$/;"	f
 PanicErr	com/exception.go	/^func PanicErr(funcName, msg string, err error) {$/;"	f
 Pause	com/stdio.go	/^func Pause() {$/;"	f
+ReadDir	com/path.go	/^func ReadDir(path string) []string {$/;"	f
 ReadLine	com/fileio.go	/^func (self *FReader) ReadLine() (string, bool) {$/;"	f
 ReadLine	com/stdio.go	/^func ReadLine() string {$/;"	f
 Remove	com/array.go	/^func (a *Array) Remove(index int) interface{} {$/;"	f
 RemoveFirst	com/array.go	/^func (a *Array) RemoveFirst() interface{} {$/;"	f
 RemoveLast	com/array.go	/^func (a *Array) RemoveLast() interface{} {$/;"	f
 RunCMDPipe	com/pipe.go	/^func RunCMDPipe(command string) string {$/;"	f
+SLASH	er/constants.go	/^var SLASH string$/;"	v
 Set	com/array.go	/^func (a *Array) Set(index int, element interface{}) {$/;"	f
 Set	com/ini.go	/^func (self *Ini) Set(k, v string) {$/;"	f
 SetWelcome	com/menu.go	/^func (self *Menu) SetWelcome(s string) {$/;"	f
 String	com/array.go	/^func (a *Array) String() string {$/;"	f
+ToUpper	com/string.go	/^func ToUpper(s string) string {$/;"	f
 Trim	com/string.go	/^func Trim(s string) string {$/;"	f
 Try	com/try.go	/^func Try(userFn func(), catchFn func(err interface{}), finalFn func()) {$/;"	f
 Warn	com/stdio.go	/^func Warn(s string) {$/;"	f
-bakCfgIniName	er/constants.go	/^const bakCfgIniName = "config.ini" \/\/ 自定义备份配置文件$/;"	c
+backup	er/func.go	/^func (self *FuncIns) backup() {$/;"	f
 bakDirPath	er/constants.go	/^const bakDirPath     = "bak"$/;"	c
 bakIniName	er/constants.go	/^const bakIniName = "backups.ini" \/\/ 备份文件记录（自动生成）$/;"	c
 buildMenu	er/er.go	/^func (self *er) buildMenu() {$/;"	f
-buildMenu1	er/er.go	/^func (self *er) buildMenu1() *Menu {$/;"	f
+buildMenu1	er/er.go	/^func (self *er) buildMenu1() *com.Menu {$/;"	f
+buildMenu2	er/er.go	/^func (self *er) buildMenu2() *com.Menu {$/;"	f
+buildMenu3	er/er.go	/^func (self *er) buildMenu3() *com.Menu {$/;"	f
+buildMenu4	er/er.go	/^func (self *er) buildMenu4() *com.Menu {$/;"	f
+buildMenu5	er/er.go	/^func (self *er) buildMenu5() *com.Menu {$/;"	f
+buildModMenu	er/er.go	/^func (self *er) buildModMenu(cfg *conf) *com.Menu {$/;"	f
+cfgIniName	er/constants.go	/^const cfgIniName = "config.ini" \/\/ MOD和工具的配置文件名$/;"	c
+checkBakDir	er/func.go	/^func (self *FuncBak) checkBakDir() {$/;"	f
+checkBakDir	er/func.go	/^func (self *FuncRes) checkBakDir() {$/;"	f
+checkBakIni	er/func.go	/^func (self *FuncRes) checkBakIni() {$/;"	f
 checkPath	er/func.go	/^func (self *FuncSetGameRoot) checkPath(path string) bool {$/;"	f
 checkPath	er/func.go	/^func (self *FuncSetSavePath) checkPath(path string) bool {$/;"	f
 com	com/array.go	/^package com$/;"	p
 com	com/copy.go	/^package com$/;"	p
 com	com/exception.go	/^package com$/;"	p
-com	com/file.go	/^package com$/;"	p
 com	com/fileio.go	/^package com$/;"	p
 com	com/flag.go	/^package com$/;"	p
 com	com/func.go	/^package com$/;"	p
@@ -105,27 +127,57 @@ com	com/stdio.go	/^package com$/;"	p
 com	com/string.go	/^package com$/;"	p
 com	com/try.go	/^package com$/;"	p
 commentName	er/constants.go	/^const commentName = "comment.txt"$/;"	c
+conf	er/common.go	/^type conf struct {$/;"	t
+copy	er/func.go	/^func (self *FuncIns) copy() {$/;"	f
 copyDir	com/copy.go	/^func copyDir(from, to string) {$/;"	f
 copyFile	com/copy.go	/^func copyFile(from, to string) {$/;"	f
+copyFiles	er/func.go	/^func (self *FuncBak) copyFiles() {$/;"	f
+copyFilesCustom	er/func.go	/^func (self *FuncBak) copyFilesCustom() {$/;"	f
+copyFilesSave	er/func.go	/^func (self *FuncBak) copyFilesSave() {$/;"	f
+createFilesDir	er/func.go	/^func (self *FuncBak) createFilesDir() {$/;"	f
+createTSDir	er/func.go	/^func (self *FuncBak) createTSDir() {$/;"	f
+er	er/common.go	/^package er$/;"	p
 er	er/constants.go	/^package er$/;"	p
 er	er/er.go	/^package er$/;"	p
 er	er/er.go	/^type er struct {$/;"	t
 er	er/func.go	/^package er$/;"	p
 filesDirName	er/constants.go	/^const filesDirName = "files"$/;"	c
 filesIniName	er/constants.go	/^const filesIniName  = "files.ini" \/\/ MOD和工具的本体文件名$/;"	c
+getBakDir	er/func.go	/^func (self *FuncBak) getBakDir() {$/;"	f
+getBakPath	er/func.go	/^func (self *FuncIns) getBakPath() string {$/;"	f
+getConf	er/er.go	/^func (self *er) getConf(base string) *conf {$/;"	f
+getConfig	er/func.go	/^func (self *FuncBak) getConfig() {$/;"	f
+getContent	er/er.go	/^func (self *er) getContent(ind int, cfg *conf) string {$/;"	f
+getExePath	er/func.go	/^func (self *FuncIns) getExePath() string {$/;"	f
+getGamePath	er/func.go	/^func (self *FuncIns) getGamePath() string {$/;"	f
+getKeyGamePath	er/func.go	/^func (self *FuncBak) getKeyGamePath() {$/;"	f
+getKeyGamePath	er/func.go	/^func (self *FuncRes) getKeyGamePath() {$/;"	f
+getKeySave	er/func.go	/^func (self *FuncBak) getKeySave() {$/;"	f
+getKeySave	er/func.go	/^func (self *FuncRes) getKeySave() {$/;"	f
+getNewWorkPath	er/func.go	/^func (self *FuncIns) getNewWorkPath() string {$/;"	f
+getTS	er/func.go	/^func (self *FuncBak) getTS() {$/;"	f
+init	er/constants.go	/^func init() {$/;"	f
+initBakIni	er/func.go	/^func (self *FuncRes) initBakIni() {$/;"	f
 initIni	er/er.go	/^func (self *er) initIni() {$/;"	f
+initParams	er/func.go	/^func (self *FuncIns) initParams() {$/;"	f
+keyBakNum	er/constants.go	/^const keyBakNum = "BakNum"$/;"	c
 keyFilesNum	er/constants.go	/^const keyFilesNum = "FilesNum" \/\/ MOD的文件数量$/;"	c
 keyGameRoot	er/constants.go	/^const keyGameRoot = "GameRoot" \/\/ 游戏安装根目录$/;"	c
 keySavePath	er/constants.go	/^const keySavePath = "SavePath" \/\/ 游戏存档根目录$/;"	c
 main	main.go	/^func main() {$/;"	f
 main	main.go	/^package main$/;"	p
-modCfgIniName	er/constants.go	/^const modCfgIniName = "config.ini" \/\/ MOD和工具的配置文件名$/;"	c
 modsDirPath	er/constants.go	/^const modsDirPath    = "mods"$/;"	c
 monitor	com/menu.go	/^func (self *Menu) monitor() {$/;"	f
 print	com/menu.go	/^func (self *Menu) print() {$/;"	f
+readFilesIni	er/func.go	/^func (self *FuncIns) readFilesIni() (int, []string) {$/;"	f
 resize	com/array.go	/^func (a *Array) resize(newCapacity int) {$/;"	f
+restore	er/func.go	/^func (self *FuncRes) restore(ind int) {$/;"	f
+run	er/func.go	/^func (self *FuncIns) run() {$/;"	f
 saveBakDirPath	er/constants.go	/^const saveBakDirPath = "save"$/;"	c
+selectBak	er/func.go	/^func (self *FuncRes) selectBak() (int, bool) {$/;"	f
 settingIniPath	er/constants.go	/^const settingIniPath = "config\/settings.ini"$/;"	c
 showMenu	er/er.go	/^func (self *er) showMenu() {$/;"	f
 toolsDirPath	er/constants.go	/^const toolsDirPath   = "tools"$/;"	c
 try	com/try.go	/^func try(userFn func(), catchFn func(err interface{})) {$/;"	f
+updateBakIni	er/func.go	/^func (self *FuncBak) updateBakIni() {$/;"	f
+writeComment	er/func.go	/^func (self *FuncBak) writeComment() {$/;"	f

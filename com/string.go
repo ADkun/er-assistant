@@ -56,3 +56,7 @@ func GetCurTimeStamp() string {
     milli := time.Now().UnixNano() / 1e6
     return strconv.FormatInt(milli, 10)
 }
+
+func ToUpper(s string) string {
+    return strings.ToUpper(s)
+}

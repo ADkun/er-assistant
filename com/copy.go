@@ -41,6 +41,13 @@ func copyDir(from, to string) {
 }
 
 func copyFile(from, to string) {
+    d := filepath.Dir(to)
+    if _, err := os.Stat(d); err != nil {
+        if err = os.MkdirAll(d, 0777); err != nil {
+            PanicErr(FuncName(), fmt.Sprint("os.MkdirAll(%v)", d), err)
+        }
+    }
+
     file, err := os.Open(from)
     if err != nil {
         PanicErr(FuncName(), fmt.Sprintf("os.Open(%s)", from), err)
