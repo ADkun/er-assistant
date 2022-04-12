@@ -14,13 +14,6 @@
             - bRun=true：表示开启运行选项，将会运行sRun参数指定的程序。
             - sRun=MOD主程序.exe：表示运行的程序相对路径，如果程序位于子目录，可以写成“XXX/MOD主程序.exe”（仅当bRun=true时需要设置）
             - bBak=false：表示不开启备份选项。如果开启备份，当bCopy=true，且Game/目录下有对应的文件时，安装MOD时会将其备份；卸载MOD时会将其备份。
-        - files.ini：配置需要安装/卸载的文件相对路径
-            - FilesNum=5：表示要安装/卸载的文件或文件夹数量
-            - 0=MOD主程序.exe：表示files/MOD主程序.exe，如果指定了复制选项，那么它会被复制到Game/MOD主程序.exe，下同
-            - 1=MOD数据文件.xml：同上
-            - 2=MOD目录1/：同上，如果指定了复制选项，那么会从files/MOD目录1复制到Game/MOD目录1
-            - 3=MOD2/MOD文件1.csv：同上，但精确到文件（推荐）
-            - 4=MOD2/MOD文件2.csv：同上
 
 [ 注 ]
 1. config.ini中"b"开头的参数值可以是"true"（开启），或者"false"（关闭），不区分大小写。

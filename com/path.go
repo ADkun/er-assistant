@@ -121,3 +121,53 @@ func Abs(path string) string {
     }
     return res
 }
+
+// 读取一个目录下所有的
+func ReadAllFiles(path string) []string {
+    if !IsDir(path) {
+        Panic(FuncName(), fmt.Sprintf("%s 不是目录", path))
+    }
+
+    // 读取第一层级目录
+    arr := GetArray(50)
+    readAllFiles(path, "", arr)
+
+    // 转换为[]string
+    s := arr.GetSize()
+    res := make([]string, s)
+    for i := 0; i < s; i++ {
+        if v, ok := arr.Get(i).(string); ok {
+            res[i] = v
+        } else {
+            Panic(FuncName(), fmt.Sprintf("Array元素转换为string失败"))
+        }
+    }
+
+    return res
+}
+
+// var count int = 1
+
+func readAllFiles(path string, prefix string, arr *Array) {
+    list := ReadDir(path)
+    for ind, _ := range list {
+        name := list[ind]
+        tPath := path + SLASH + name
+
+        if IsDir(tPath) {
+            if prefix == "" {
+                readAllFiles(tPath, name, arr)
+            } else {
+                readAllFiles(tPath, prefix + SLASH + name, arr)
+            }
+            continue
+        }
+
+        if prefix == "" {
+            arr.AddLast(name)
+        } else {
+            a := prefix + SLASH + name
+            arr.AddLast(a)
+        }
+    }
+}

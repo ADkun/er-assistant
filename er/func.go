@@ -437,10 +437,7 @@ type FuncIns struct {
 
     gamePath string
     basePath string
-    filesIniPath string
     filesDirPath string
-    filesIni *com.Ini
-    filesNum int
     filesRelPath []string
     bakPath string
 }
@@ -563,10 +560,8 @@ func (self *FuncIns) getExePath() string {
 func (self *FuncIns) initParams() {
     self.gamePath = self.getGamePath() // 游戏目录
     self.basePath = self.Cfg.base // mod/tool目录
-    self.filesIniPath = self.basePath + SLASH + filesIniName // files.ini路径
     self.filesDirPath = self.basePath + SLASH + "files"
-    self.filesIni = com.NewIni(self.filesIniPath)
-    self.filesNum, self.filesRelPath = self.readFilesIni()
+    self.filesRelPath = com.ReadAllFiles(self.filesDirPath)
     self.bakPath = self.basePath + SLASH + "bak"
 }
 
@@ -574,14 +569,7 @@ func (self *FuncIns) getBakPath() string {
     return self.basePath + "SLASH" + "bak"
 }
 
-func (self *FuncIns) readFilesIni() (int, []string) {
-    filesNum := self.filesIni.GetInt(keyFilesNum)
-    filesRelPath := make([]string, filesNum)
-    for i := 0; i < filesNum; i++ {
-        relPath := self.filesIni.GetString(com.I2A(i))
-        filesRelPath[i] = relPath
-    }
-    return filesNum, filesRelPath
+func (self *FuncIns) getFilesRelPath() {
 }
 
 func (self *FuncIns) getGamePath() string {
@@ -596,9 +584,7 @@ type FuncUni struct {
 
     gamePath string
     basePath string
-    filesIniPath string
-    filesIni *com.Ini
-    filesNum int
+    filesDirPath string
     filesRelPath []string
     bakDirPath string
 }
@@ -649,15 +635,8 @@ func (self *FuncUni) rmFiles() {
 func (self *FuncUni) getParams() {
     self.gamePath = self.Setting.GetString(keyGameRoot)
     self.basePath = self.Cfg.base
-    self.filesIniPath = self.basePath + SLASH + filesIniName
-    self.filesIni = com.NewIni(self.filesIniPath)
-    self.filesNum = self.filesIni.GetInt("FilesNum")
-    filesRelPath := make([]string, self.filesNum)
-    for i := 0; i < self.filesNum; i++ {
-        relPath := self.filesIni.GetString(com.I2A(i))
-        filesRelPath[i] = relPath
-    }
-    self.filesRelPath = filesRelPath
+    self.filesDirPath = self.basePath + SLASH + "files"
+    self.filesRelPath = com.ReadAllFiles(self.filesDirPath)
     self.bakDirPath = self.basePath + SLASH + "bak"
 }
 
