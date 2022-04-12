@@ -28,10 +28,7 @@ Mod Engine的使用方法是在游戏目录Game/下创建一个mod/文件夹，�
             bCopy=true （开启复制文件到Game/选项）
             bRun=false （关闭运行选项）（该MOD没有可执行文件）
             bBak=false （关闭备份相同文件选项）
-        - files.ini
-            FilesNum=2 （MOD文件总数）
-            0=m_m_1130.partsbnd.dcx （注意：以0为序号的起始数）
-            1=am_m_1130_l.partsbnd.dcx
+            bSkip=fales （不覆盖已存在文件）
         - files/
             - mod/
                 am_m_1130.partsbnd.dcx
@@ -51,10 +48,7 @@ Mod Engine的使用方法是在游戏目录Game/下创建一个mod/文件夹，�
             bRun=true （开启运行）
             sRun=toggle_anti_cheat.exe （运行的可执行文件“相对路径”）
             bBak=false （关闭备份）
-        - files.ini
-            FilesNum=5
-            0=toggle_anti_cheat.exe
-            ... （此处省略4个文件或文件夹）
+            bSkip=true （不覆盖已存在文件）
         - files/
             - toggle_anti_cheat.exe
             - ... （此处省略n个文件或文件夹）
@@ -62,6 +56,6 @@ Mod Engine的使用方法是在游戏目录Game/下创建一个mod/文件夹，�
 ## 注
 1. MOD和工具的config.ini中
     1. 所有"b"开头的配置项，值只能为"true"（开启）或"false"（关闭），不区分大小写。
-    2. 只有当bCopy=true时，bBak=true才生效（即当Game/下有相同文件时，备份）
+    2. 只有当bCopy=true时，才需要配置bBak和bSkip（即当Game/下有相同文件时，备份）
     3. 只有当bRun=true时，才需要设定sRun=配置。
     4. files.ini中，FilesNum要对应下面设定的条数，条数序号从0开始。
