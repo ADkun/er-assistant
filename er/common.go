@@ -7,4 +7,5 @@ type conf struct {
     bRun bool
     sRun string
     bBak bool
+    bSkip bool
 }

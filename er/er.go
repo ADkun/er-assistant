@@ -194,7 +194,12 @@ func (self *er) getConf(base string) *conf {
 	if bRun {
 		sRun = confIni.GetString("sRun")
 	}
-	bBak := confIni.GetBool("bBak")
+    var bBak bool
+    var bSkip bool
+    if bCopy {
+        bBak = confIni.GetBool("bBak")
+        bSkip = confIni.GetBool("bSkip")
+    }
 
 	cfg := &conf{
 		base:  base,
@@ -203,6 +208,7 @@ func (self *er) getConf(base string) *conf {
 		bRun:  bRun,
 		sRun:  sRun,
 		bBak:  bBak,
+        bSkip: bSkip,
 	}
 	return cfg
 }

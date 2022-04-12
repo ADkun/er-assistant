@@ -510,6 +510,10 @@ func (self *FuncIns) copy() {
             com.Panic(com.FuncName(), fmt.Sprintf("%s 不存在", src))
         }
         tar := self.gamePath + SLASH + relPath
+        if com.IsPathExist(tar) && self.Cfg.bSkip {
+            com.Info(fmt.Sprintf("%s 已存在，跳过", tar))
+            continue
+        }
         com.Copy(src, tar)
         com.Info("复制 " + relPath)
     }
