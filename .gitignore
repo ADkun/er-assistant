@@ -1,10 +1,9 @@
-config/
-save/
-bak/
-mods/
-tools/
+/config/
+/save/
+/bak/
+/mods/
+/tools/
 main.go.exe
 tags
 法环助手.exe
 .vscode
-
