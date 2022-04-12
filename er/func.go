@@ -491,6 +491,9 @@ func (self *FuncIns) backup() {
         }
 
         tar := self.bakPath + SLASH + self.filesRelPath[ind]
+        if com.IsPathExist(tar) {
+            com.Warn(fmt.Sprintf("%s 已存在，跳过备份", tar))
+        }
         com.Copy(src, tar)
         com.Info(fmt.Sprintf("已备份 %s", self.filesRelPath[ind]))
     }
@@ -523,12 +526,9 @@ func (self *FuncIns) run() {
 
     com.Info("开始运行")
     exePath := self.getExePath()
-    curWorkPath := com.GetWorkPath()
     newWorkPath := self.getNewWorkPath()
-    com.Chdir(newWorkPath)
-    output := com.RunCMDPipe(exePath)
-    com.Info("运行输出:\n" + output)
-    com.Chdir(curWorkPath)
+    com.RunCd(newWorkPath, exePath)
+    //com.Info("运行输出:\n" + output)
     com.Info("运行结束")
 }
 
@@ -567,6 +567,7 @@ func (self *FuncIns) initParams() {
     self.filesDirPath = self.basePath + SLASH + "files"
     self.filesIni = com.NewIni(self.filesIniPath)
     self.filesNum, self.filesRelPath = self.readFilesIni()
+    self.bakPath = self.basePath + SLASH + "bak"
 }
 
 func (self *FuncIns) getBakPath() string {
@@ -619,6 +620,10 @@ func (self *FuncUni) restore() {
     for ind, _ := range self.filesRelPath {
         relPath := self.filesRelPath[ind]
         src := self.bakDirPath + SLASH + relPath
+        if !com.IsPathExist(src) {
+            com.Info(fmt.Sprintf("%s 不存在，跳过恢复", src))
+            continue
+        }
         tar := self.gamePath + SLASH + relPath
         com.Copy(src, tar)
         com.Info("恢复 " + relPath)

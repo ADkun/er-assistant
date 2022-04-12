@@ -113,3 +113,11 @@ func RemoveAll(path string) {
         PanicErr(FuncName(), fmt.Sprintf("os.RemoveAll(%s)", path), err)
     }
 }
+
+func Abs(path string) string {
+    res, err := filepath.Abs(path)
+    if err != nil {
+        PanicErr(FuncName(), fmt.Sprintf("filepath.Abs(%s)", path), err)
+    }
+    return res
+}
