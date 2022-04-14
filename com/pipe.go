@@ -34,10 +34,10 @@ func Run(args ...string) string {
     var oBuf bytes.Buffer
     cmd.Stdout = &oBuf
     if err := cmd.Start(); err != nil {
-        PanicErr(FuncName(), "cmd.Start()执行失败", err)
+        PanicErr(DebugInfo(), "cmd.Start()执行失败", err)
     }
     if err := cmd.Wait(); err != nil {
-        PanicErr(FuncName(), "cmd.Wait()执行失败", err)
+        PanicErr(DebugInfo(), "cmd.Wait()执行失败", err)
     }
     return string(oBuf.Bytes())
 }
@@ -45,7 +45,7 @@ func Run(args ...string) string {
 func getCMD(args ...string) *exec.Cmd {
     ll := len(args)
     if ll == 0 {
-        Panic(FuncName(), "参数不能为空")
+        Panic(DebugInfo(), "参数不能为空")
     } else if ll == 1 {
         return exec.Command(args[0])
     } else if ll == 2 {
@@ -55,7 +55,7 @@ func getCMD(args ...string) *exec.Cmd {
     } else if ll == 4 {
         return exec.Command(args[0], args[1], args[2], args[3])
     } else {
-        Panic(FuncName(), "最大支持4个参数")
+        Panic(DebugInfo(), "最大支持4个参数")
     }
     return nil
 }

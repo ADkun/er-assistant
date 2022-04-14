@@ -16,7 +16,7 @@ func GetArgs() []string {
 func GetArgAt(i int) string {
     l := GetArgLen()
     if i > l - 1 {
-        Panic(FuncName(), fmt.Sprintf("索引超出范围，索引范围: 0 - %d", l - 1))
+        Panic(DebugInfo(), fmt.Sprintf("索引超出范围，索引范围: 0 - %d", l - 1))
     }
     args := GetArgs()
     return args[i]

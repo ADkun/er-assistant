@@ -29,7 +29,7 @@ func (self *Menu) Init(c []string, a []IAction, w string) {
     cLen := len(c)
     aLen := len(a)
     if cLen != aLen {
-        Panic(FuncName(), fmt.Sprintf("参数数组大小不相等 %d != %d", cLen, aLen))
+        Panic(DebugInfo(), fmt.Sprintf("参数数组大小不相等 %d != %d", cLen, aLen))
     }
     self.Initialize(cLen)
     self.SetWelcome(w)
@@ -100,7 +100,7 @@ func (self *Menu) monitor() {
                 Pause()
             }, func(){})
         } else {
-            Panic(FuncName(), "action无法转换为IAction")
+            Panic(DebugInfo(), "action无法转换为IAction")
         }
     }
 }
@@ -108,11 +108,11 @@ func (self *Menu) monitor() {
 func (self *Menu) AddContent(i int, c interface{}) {
     cap := self.content.GetCapacity()
     if i < 0 || i > cap {
-        Panic(FuncName(), fmt.Sprintf("索引错误, 最大%d", cap))
+        Panic(DebugInfo(), fmt.Sprintf("索引错误, 最大%d", cap))
     }
 
     if _, ok := c.(string); !ok {
-        Panic(FuncName(), "参数必须为string类型")
+        Panic(DebugInfo(), "参数必须为string类型")
     }
 
     self.content.Add(i, c)
@@ -121,11 +121,11 @@ func (self *Menu) AddContent(i int, c interface{}) {
 func (self *Menu) AddAction(i int, a interface{}) {
     cap := self.action.GetCapacity()
     if i < 0 || i > cap {
-        Panic(FuncName(), fmt.Sprintf("索引错误, 最大%d", cap))
+        Panic(DebugInfo(), fmt.Sprintf("索引错误, 最大%d", cap))
     }
 
     if _, ok := a.(IAction); !ok {
-        Panic(FuncName(), "参数必须为IAction类型")
+        Panic(DebugInfo(), "参数必须为IAction类型")
     }
 
     self.action.Add(i, a)
@@ -140,7 +140,7 @@ func NewAction(a interface{}) *Action {
     _, ok := a.(IMenu)
     _, ok1 := a.(IFunc)
     if !ok && !ok1 {
-        Panic(FuncName(), "参数应为IMenu或IFunc类型")
+        Panic(DebugInfo(), "参数应为IMenu或IFunc类型")
     }
     action := &Action {
         action: a,

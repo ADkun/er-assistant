@@ -197,12 +197,12 @@ func (self *FuncBak) copyFilesCustom() {
     for i := 0; i < self.filesNum; i++ {
         relPath, ok := self.arr.Get(i).(string)
         if !ok {
-            com.Panic(com.FuncName(), fmt.Sprint("Array.Get(%d).(string)", i))
+            com.Panic(com.DebugInfo(), fmt.Sprint("Array.Get(%d).(string)", i))
         }
         // 检验是否存在文件
         src := self.gamePath + SLASH + relPath
         if !com.IsPathExist(src) {
-            com.Panic(com.FuncName(), fmt.Sprintf("路径不存在: %s", src))
+            com.Panic(com.DebugInfo(), fmt.Sprintf("路径不存在: %s", src))
         }
         tar := self.tarPath
         tar += SLASH + relPath
@@ -215,23 +215,23 @@ func (self *FuncBak) copyFilesCustom() {
 func (self *FuncBak) getConfig() {
     cfgIniPath := self.bakDir + SLASH + cfgIniName
     if !com.IsPathExist(cfgIniPath) {
-        com.Panic(com.FuncName(), fmt.Sprintf("未找到自定义备注配置文件: %s", cfgIniPath))
+        com.Panic(com.DebugInfo(), fmt.Sprintf("未找到自定义备注配置文件: %s", cfgIniPath))
     }
 
     cfgIni := com.NewIni(cfgIniPath)
     filesNumStr := cfgIni.Get(keyFilesNum)
     if filesNumStr == "" {
-        com.Panic(com.FuncName(), fmt.Sprintf("无法读取FilesNum于%s，请先自行配置", cfgIniPath))
+        com.Panic(com.DebugInfo(), fmt.Sprintf("无法读取FilesNum于%s，请先自行配置", cfgIniPath))
     }
     if !com.IsDigit(filesNumStr) {
-        com.Panic(com.FuncName(), fmt.Sprintf("FilesNum不合法: %s", filesNumStr))
+        com.Panic(com.DebugInfo(), fmt.Sprintf("FilesNum不合法: %s", filesNumStr))
     }
     filesNum := com.A2I(filesNumStr)
     arr := com.GetArray(filesNum)
     for i := 0; i < filesNum; i++ {
         relPath := cfgIni.Get(com.I2A(i))
         if relPath == "" {
-            com.Panic(com.FuncName(), fmt.Sprintf("%s 序号 %d 读取失败", cfgIniPath, i))
+            com.Panic(com.DebugInfo(), fmt.Sprintf("%s 序号 %d 读取失败", cfgIniPath, i))
         }
         arr.Add(i, relPath)
     }
@@ -268,7 +268,7 @@ func (self *FuncBak) getTS() {
 func (self *FuncBak) getKeySave() {
     res := self.Setting.Get(keySavePath)
     if res == "" {
-        com.Panic(com.FuncName(), "未设置存档目录，请先设置")
+        com.Panic(com.DebugInfo(), "未设置存档目录，请先设置")
     }
     self.savePath = res
 }
@@ -276,7 +276,7 @@ func (self *FuncBak) getKeySave() {
 func (self *FuncBak) getKeyGamePath() {
     res := self.Setting.Get(keyGameRoot)
     if res == "" {
-        com.Panic(com.FuncName(), "未设置游戏目录，请先设置")
+        com.Panic(com.DebugInfo(), "未设置游戏目录，请先设置")
     }
     self.gamePath = res
 }
@@ -323,7 +323,7 @@ func (self *FuncRes) Go() {
 func (self *FuncRes) restore(ind int) {
     tsPath, ok := self.bakPaths.Get(ind).(string)
     if !ok {
-        com.Panic(com.FuncName(), fmt.Sprintf("Array.Get(%d).(string), Array:%v", ind, self.bakPaths))
+        com.Panic(com.DebugInfo(), fmt.Sprintf("Array.Get(%d).(string), Array:%v", ind, self.bakPaths))
     }
 
     src := tsPath + SLASH + filesDirName
@@ -351,7 +351,7 @@ func (self *FuncRes) checkBakDir() {
         self.bakIniPath = bakDirPath + SLASH + bakIniName
     }
     if !com.IsPathExist(self.bakIniPath) {
-        com.Panic(com.FuncName(), "尚未进行过备份，请先进行备份")
+        com.Panic(com.DebugInfo(), "尚未进行过备份，请先进行备份")
     }
 }
 
@@ -362,7 +362,7 @@ func (self *FuncRes) initBakIni() {
 func (self *FuncRes) checkBakIni() {
     bakNumStr := self.bakIni.Get(keyBakNum)
     if bakNumStr == "" {
-        com.Panic(com.FuncName(), "尚未进行过备份，请先进行备份")
+        com.Panic(com.DebugInfo(), "尚未进行过备份，请先进行备份")
     }
     self.bakNum = com.A2I(bakNumStr)
     self.bakPaths = com.GetArray(self.bakNum)
@@ -370,7 +370,7 @@ func (self *FuncRes) checkBakIni() {
         k := com.I2A(i)
         ts := self.bakIni.Get(k)
         if ts == "" {
-            com.Panic(com.FuncName(), fmt.Sprintf("backups.ini文件损坏，序号 %d 不存在", i))
+            com.Panic(com.DebugInfo(), fmt.Sprintf("backups.ini文件损坏，序号 %d 不存在", i))
         }
         var tsPath string
         if self.BSave {
@@ -379,7 +379,7 @@ func (self *FuncRes) checkBakIni() {
             tsPath = bakDirPath + SLASH + ts
         }
         if !com.IsPathExist(tsPath) {
-            com.Panic(com.FuncName(), fmt.Sprintf("backups.ini对应的备份文件丢失，序号 %d", i))
+            com.Panic(com.DebugInfo(), fmt.Sprintf("backups.ini对应的备份文件丢失，序号 %d", i))
         }
         // 获取并存储备份的ts路径 save/ts
         self.bakPaths.Add(i, tsPath)
@@ -395,12 +395,12 @@ func (self *FuncRes) selectBak() (int, bool) {
         for i := 0; i < self.bakNum; i++ {
             tsPath, ok := self.bakPaths.Get(i).(string)
             if !ok {
-                com.Panic(com.FuncName(), fmt.Sprintf("Array.Get(%d).(string), Array:%v", i, self.bakPaths))
+                com.Panic(com.DebugInfo(), fmt.Sprintf("Array.Get(%d).(string), Array:%v", i, self.bakPaths))
             }
             // 获取备注
             commentPath := tsPath + SLASH + commentName
             if !com.IsPathExist(commentPath) {
-                com.Panic(com.FuncName(), fmt.Sprintf("未找到备注文件: %s", commentPath))
+                com.Panic(com.DebugInfo(), fmt.Sprintf("未找到备注文件: %s", commentPath))
             }
             comment := com.FReadAll(commentPath)
             pStr := com.I2A(i + 1) + ": " + comment
@@ -507,7 +507,7 @@ func (self *FuncIns) copy() {
         relPath := self.filesRelPath[ind]
         src := self.filesDirPath + SLASH + relPath
         if !com.IsPathExist(src) {
-            com.Panic(com.FuncName(), fmt.Sprintf("%s 不存在", src))
+            com.Panic(com.DebugInfo(), fmt.Sprintf("%s 不存在", src))
         }
         tar := self.gamePath + SLASH + relPath
         if com.IsPathExist(tar) && self.Cfg.bSkip {
@@ -654,7 +654,7 @@ func (self *FuncHelp) Go() {
     com.Clear()
     helpPath := self.Cfg.base + SLASH + "readme.txt"
     if !com.IsPathExist(helpPath) {
-        com.Panic(com.FuncName(), fmt.Sprintf("帮助文件 %s 不存在", helpPath))
+        com.Panic(com.DebugInfo(), fmt.Sprintf("帮助文件 %s 不存在", helpPath))
     }
 
     c := com.FReadAll(helpPath)

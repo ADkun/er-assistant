@@ -2,41 +2,43 @@ package com
 
 import (
     "strings"
-    "runtime"
 )
 
-// 作为示范，需要在相应位置调用
-func GetFileLine() (string, string) {
-    _, file, line, _ := runtime.Caller(0)
-    return file, line
-}
-
-func Panic(funcName, msg string) {
+func Panic(info []string, msg string) {
+    fn := info[0]
+    file := info[1]
+    line := info[2]
     var builder strings.Builder
     builder.WriteString("=====[ PANIC BEG ]=====\n")
-    builder.WriteString("函数: ")
-    builder.WriteString(funcName)
-    builder.WriteString("\n")
-    builder.WriteString("信息: ")
+    builder.WriteString(file)
+    builder.WriteString(": ")
+    builder.WriteString(line)
+    builder.WriteString("\n\n")
+    builder.WriteString(fn)
+    builder.WriteString("\n\n")
     builder.WriteString(msg)
     builder.WriteString("\n")
     builder.WriteString("=====[ PANIC END ]=====\n")
     panic(builder.String())
 }
 
-func PanicErr(funcName, msg string, err error) {
+func PanicErr(info []string, msg string, err error) {
+    fn := info[0]
+    file := info[1]
+    line := info[2]
     var builder strings.Builder
-    builder.WriteString("=====[ PANIC BEG ]=====\n")
-    builder.WriteString("函数: ")
-    builder.WriteString(funcName)
-    builder.WriteString("\n")
-    builder.WriteString("信息: ")
+    builder.WriteString("=====[ PANICERR BEG ]=====\n")
+    builder.WriteString(file)
+    builder.WriteString(": ")
+    builder.WriteString(line)
+    builder.WriteString("\n\n")
+    builder.WriteString(fn)
+    builder.WriteString("\n\n")
     builder.WriteString(msg)
-    builder.WriteString("\n")
-    builder.WriteString("错误: ")
+    builder.WriteString("\n\n")
     builder.WriteString(err.Error())
     builder.WriteString("\n")
-    builder.WriteString("=====[ PANIC END ]=====\n")
+    builder.WriteString("=====[ PANICERR END ]=====\n")
     panic(builder.String())
 }
 

@@ -11,7 +11,7 @@ func ReadLine() string {
     reader := bufio.NewReader(os.Stdin)
     res, err := reader.ReadString('\n')
     if err != nil {
-        PanicErr(FuncName(), "reader.ReadString('\n')", err)
+        PanicErr(DebugInfo(), "reader.ReadString('\n')", err)
     }
     return Trim(res)
 }

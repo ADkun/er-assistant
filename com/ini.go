@@ -17,7 +17,7 @@ func NewIni(path string) *Ini {
     d := filepath.Dir(path)
     if _, err := os.Stat(d); err != nil {
         if err = os.MkdirAll(d, 0777); err != nil {
-            PanicErr(FuncName(), fmt.Sprintf("os.MkdirAll(%v)", d), err)
+            PanicErr(DebugInfo(), fmt.Sprintf("os.MkdirAll(%v)", d), err)
         }
     }
 
@@ -26,14 +26,14 @@ func NewIni(path string) *Ini {
     if !exist {
         file, err := os.Create(path)
         if err != nil {
-            PanicErr(FuncName(), fmt.Sprintf("os.Create(%s)", path), err)
+            PanicErr(DebugInfo(), fmt.Sprintf("os.Create(%s)", path), err)
         }
         defer file.Close()
     }
 
     // 已存在且是目录，报错
     if IsDir(path) {
-        Panic(FuncName(), fmt.Sprintf("路径被占用，无法创建文件%s", path))
+        Panic(DebugInfo(), fmt.Sprintf("路径被占用，无法创建文件%s", path))
     }
 
     ini := &Ini {
@@ -86,7 +86,7 @@ func (self *Ini) Set(k, v string) {
     temp := GetRandStr(10)
     tempF, err := os.Create(temp)
     if err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("os.Create(%s)", temp), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("os.Create(%s)", temp), err)
     }
 
     // 构造
@@ -122,13 +122,13 @@ func (self *Ini) Set(k, v string) {
 
     freader.Close()
     if err = os.Remove(self.path); err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("os.Remove(%s)", self.path), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("os.Remove(%s)", self.path), err)
     }
 
     tempF.Close()
     // 临时文件覆盖原文件
     if err = os.Rename(temp, self.path); err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("os.Rename(%s)", temp), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("os.Rename(%s)", temp), err)
     }
 }
 
@@ -136,7 +136,7 @@ func (self *Ini) GetBool(k string) bool {
     v := self.Get(k)
     v = ToUpper(v)
     if v == "" {
-        Panic(FuncName(), fmt.Sprintf("%s 未设置 %s", self.path, k))
+        Panic(DebugInfo(), fmt.Sprintf("%s 未设置 %s", self.path, k))
     }
 
     if v == "TRUE" {
@@ -144,7 +144,7 @@ func (self *Ini) GetBool(k string) bool {
     } else if v == "FALSE" {
         return false
     } else {
-        Panic(FuncName(), fmt.Sprintf("%s: %s 的值不合法: %s\n应为true或false", self.path, k, v))
+        Panic(DebugInfo(), fmt.Sprintf("%s: %s 的值不合法: %s\n应为true或false", self.path, k, v))
     }
     return false
 }
@@ -152,7 +152,7 @@ func (self *Ini) GetBool(k string) bool {
 func (self *Ini) GetString(k string) string {
     v := self.Get(k)
     if v == "" {
-        Panic(FuncName(), fmt.Sprintf("%s 未设置 %s", self.path, k))
+        Panic(DebugInfo(), fmt.Sprintf("%s 未设置 %s", self.path, k))
     }
     return v
 }
@@ -160,7 +160,7 @@ func (self *Ini) GetString(k string) string {
 func (self *Ini) GetInt(k string) int {
     v := self.Get(k)
     if v == "" {
-        Panic(FuncName(), fmt.Sprintf("%s 未设置 %s", self.path, k))
+        Panic(DebugInfo(), fmt.Sprintf("%s 未设置 %s", self.path, k))
     }
     return A2I(v)
 }

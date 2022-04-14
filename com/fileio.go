@@ -11,19 +11,19 @@ import (
 // 覆盖文件内容
 func FWrite(path, content string) {
     if IsPathExist(path) && IsDir(path) {
-        Panic(FuncName(), fmt.Sprintf("路径被占用，无法创建文件: %s", path))
+        Panic(DebugInfo(), fmt.Sprintf("路径被占用，无法创建文件: %s", path))
     }
 
     d := filepath.Dir(path)
     if _, err := os.Stat(d); err != nil {
         if err = os.MkdirAll(d, 0777); err != nil {
-            PanicErr(FuncName(), fmt.Sprintf("os.MkdirAll(%v)", d), err)
+            PanicErr(DebugInfo(), fmt.Sprintf("os.MkdirAll(%v)", d), err)
         }
     }
 
     f, err := os.Create(path)
     if err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("os.Create(%s)", path), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("os.Create(%s)", path), err)
     }
     defer f.Close()
     f.WriteString(content)
@@ -33,12 +33,12 @@ func FWrite(path, content string) {
 func FReadAll(path string) string {
     f, err := os.Open(path)
     if err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("os.Open(%s)", path), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("os.Open(%s)", path), err)
     }
     defer f.Close()
     bytes, err := ioutil.ReadAll(f)
     if err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("ioutil.ReadAll(%v)", f), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("ioutil.ReadAll(%v)", f), err)
     }
     return string(bytes)
 }
@@ -52,7 +52,7 @@ type IFReader interface {
 func NewFReader(path string) *FReader {
     file, err := os.Open(path)
     if err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("os.Open(%s)", path), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("os.Open(%s)", path), err)
     }
 
     s := bufio.NewScanner(file)
@@ -72,12 +72,12 @@ type FReader struct {
 
 func (self *FReader) ReadLine() (string, bool) {
     if self.s == nil {
-        Panic(FuncName(), "FReader.Scanner is nil")
+        Panic(DebugInfo(), "FReader.Scanner is nil")
     }
     end := self.s.Scan()
     line := self.s.Text()
     if err := self.s.Err(); err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("Scan %s failed", self.path), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("Scan %s failed", self.path), err)
     }
     line = Trim(line)
     return line, end
@@ -93,17 +93,17 @@ func FAppend(path, content string) {
     // 只写模式打开文件
     f, err := os.OpenFile(path, os.O_WRONLY, 0644)
     if err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("os.OpenFile(%s)", path), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("os.OpenFile(%s)", path), err)
     }
     defer f.Close()
 
     // 偏移量
     n, err := f.Seek(0, os.SEEK_END)
     if err != nil {
-        PanicErr(FuncName(), "f.Seek()", err)
+        PanicErr(DebugInfo(), "f.Seek()", err)
     }
     _, err = f.WriteAt([]byte(content), n)
     if err != nil {
-        PanicErr(FuncName(), "f.WriteAt()", err)
+        PanicErr(DebugInfo(), "f.WriteAt()", err)
     }
 }

@@ -35,7 +35,7 @@ func IsDigit(s string) bool {
     pat := "\\d+"
     res, err := regexp.MatchString(pat, s)
     if err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("regexp.MatchString(%s, %s)执行失败", pat, s), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("regexp.MatchString(%s, %s)执行失败", pat, s), err)
     }
     return res
 }
@@ -43,7 +43,7 @@ func IsDigit(s string) bool {
 func A2I(s string) int {
     res, err := strconv.Atoi(s)
     if err != nil {
-        PanicErr(FuncName(), fmt.Sprintf("strconv.Atoi(%s)执行失败", s), err)
+        PanicErr(DebugInfo(), fmt.Sprintf("strconv.Atoi(%s)执行失败", s), err)
     }
     return res
 }
