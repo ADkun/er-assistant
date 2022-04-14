@@ -1,7 +1,10 @@
 # 艾尔登法环助手
 
 github: https://github.com/ADkun/er-assistant
+
 gitee: https://gitee.com/adkun/er-assistant
+
+可用的发行版在gitee仓库中
 
 ## 功能
 1. 游戏存档备份/恢复
