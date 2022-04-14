@@ -1,5 +1,8 @@
 # 艾尔登法环助手
 
+github: https://github.com/ADkun/er-assistant
+gitee: https://gitee.com/adkun/er-assistant
+
 ## 功能
 1. 游戏存档备份/恢复
 2. 游戏目录下自定义文件的备份/恢复
