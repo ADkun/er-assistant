@@ -2,7 +2,14 @@ package com
 
 import (
     "strings"
+    "runtime"
 )
+
+// 作为示范，需要在相应位置调用
+func GetFileLine() (string, string) {
+    _, file, line, _ := runtime.Caller(0)
+    return file, line
+}
 
 func Panic(funcName, msg string) {
     var builder strings.Builder
